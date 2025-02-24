@@ -17,3 +17,4 @@ const addUser=async(req:any,res:any,next:any)=>{
 
 }
 export default addUser;
+

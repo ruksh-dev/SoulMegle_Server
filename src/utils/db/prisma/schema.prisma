@@ -16,48 +16,18 @@ datasource db {
 model User {
   id            String    @id @default(uuid())
   email         String    @unique
-  username      String?    @unique
+  username      String?
   passwordHash  String?
-  
-  // Real-time status
+
   isOnline      Boolean   @default(false)
   lastActive    DateTime  @default(now())
-  
-  // Vector DB reference - stores the ID of the vector in Pinecone
+
   vectorId      String?   @unique
-  
-  // Relationships
-  activeChatSession ChatSession?  @relation("ActiveSession")
-  chatHistory      ChatSession[] @relation("ChatHistory")
-  
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   @@index([isOnline, lastActive])
 }
 
-model ChatSession {
-  id            String    @id @default(uuid())
-  
-  // Current participants
-  user1Id       String    @unique
-  user2Id       String    @unique
-  user1         User      @relation("ActiveSession", fields: [user1Id], references: [id])
-  user2         User      @relation("ChatHistory", fields: [user2Id], references: [id])
-  
-  // Session state
-  startTime     DateTime  @default(now())
-  endTime       DateTime?
-  status        String    // "active", "ended", "terminated"
-  
-  // Optional feedback
-  user1Rating   Int?      // 1-5 star
-  user2Rating   Int?      // 1-5 star
-  
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
 
-  @@index([status])
-  @@index([user1Id])
-  @@index([user2Id])
-}

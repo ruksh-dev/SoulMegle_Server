@@ -24,3 +24,4 @@ const getSimilarUsers=async(req:any,res:any,next:any)=>{
     
 }
 export default getSimilarUsers;
+

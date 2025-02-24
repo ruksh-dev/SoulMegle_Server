@@ -8,5 +8,3 @@ const pc = new Pinecone({
 });
 
 export default pc;
-// const UserInterestsIndex=pc.index('user-interests');
-// export default UserInterestsIndex;

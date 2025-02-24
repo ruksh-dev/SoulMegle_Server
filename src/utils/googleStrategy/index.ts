@@ -1,12 +1,15 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import {prisma} from '../db/index'
+import {config} from 'dotenv'
+import {resolve} from 'path'
+config({path: resolve(__dirname,'../../../.env')})
 
 const googleStrategy=()=>{
   passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID!,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-  callbackURL: '/auth/google/redirect',
+  callbackURL: process.env.CALLBACK_URL!,
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     if(!profile.emails) throw Error('invalid profile')
@@ -19,14 +22,13 @@ const googleStrategy=()=>{
         data: {
           email: profile.emails[0].value,
           username: profile.displayName,
-          // You can add more fields here if needed
         },
       });
     }
 
-    done(null, user);
+    return done(null, user);
   } catch (error) {
-    done(error, undefined);
+    return done(error, undefined);
   }
 }));
 
