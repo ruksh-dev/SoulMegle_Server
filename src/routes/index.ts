@@ -2,7 +2,7 @@ import {Router} from 'express'
 import passport from 'passport'
 import checkAuth from '../middlewares/checkAuth'
 import getUser from '../middlewares/getUser'
-import getSimilarUsers from '../middlewares/getSimilarUsers'
+import processUserTraits from '../middlewares/processUserTraits'
 import addUser from '../services/addUser'
 import checkEmbeddingsExist from '../middlewares/checkEmbeddingsExist'
 import multer from "multer";
@@ -40,7 +40,7 @@ router.get('/logout', (req, res, next) => {
 
 // protected routes
 router.get('/api/user',checkAuth,getUser);
-router.post('/api/user/process-user-traits',checkAuth,upload.single('audio'),getSimilarUsers);
+router.post('/api/user/process-user-traits',checkAuth,upload.single('audio'), processUserTraits);
 router.get('/api/user/add',checkAuth,addUser);
 router.get('/api/user/check-traits',checkAuth,checkEmbeddingsExist)
 

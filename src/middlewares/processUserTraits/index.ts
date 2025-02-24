@@ -2,7 +2,7 @@ import getAudioText from "./getAudioText";
 import getTextEmbedding from "./getTextEmbedding";
 import storeUserEmbedding from "./storeUserEmbedding";
 
-const getSimilarUsers=async(req:any,res:any,next:any)=>{
+const processUserTraits=async(req:any,res:any,next:any)=>{
     try{
         if(!req.file) return res.status(400).json({msg:'Audio file is required'})
         const audioData = new Blob([req.file.buffer], { type: req.file.mimetype });
@@ -23,5 +23,5 @@ const getSimilarUsers=async(req:any,res:any,next:any)=>{
     }
     
 }
-export default getSimilarUsers;
+export default processUserTraits;
 
