@@ -1,6 +1,9 @@
 import Queue from 'bull';
 import {processMatchMaking} from './processMatchMaking'
-export const matchMakingQueue=new Queue('matchMaking','redis://localhost:6379')
+import {config} from 'dotenv'
+import {resolve} from 'path'
+config({path: resolve(__dirname, '../../.env')})
+export const matchMakingQueue=new Queue('matchMaking', process.env.REDIS_QUEUE_URL!)
 
 matchMakingQueue.process(async(job)=>{
     try{
